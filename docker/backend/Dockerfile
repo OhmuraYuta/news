@@ -1,16 +1,17 @@
 FROM php:8.2-fpm
 
-WORKDIR /var/www/html
+WORKDIR /workdir/backend
 
 RUN apt-get update && apt-get install -y \
     git \
+    zip \
+    curl \
     unzip \
     libpng-dev \
     libjpeg-dev \
     bash-completion \
     && rm -rf /var/lib/apt/lists/* \
-    && docker-php-ext-configure gd --with-jpeg \
-    && docker-php-ext-install gd pdo_mysql mbstring exif opcache
+    && docker-php-ext-install gd pdo_mysql mbstring bcmath
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
