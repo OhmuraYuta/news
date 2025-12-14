@@ -1,4 +1,4 @@
-FROM php:8.2-fpm
+FROM php:8.4-fpm
 
 WORKDIR /workdir/backend
 
@@ -9,9 +9,10 @@ RUN apt-get update && apt-get install -y \
     unzip \
     libpng-dev \
     libjpeg-dev \
+    libonig-dev \
     bash-completion \
     && rm -rf /var/lib/apt/lists/* \
-    && docker-php-ext-install gd pdo_mysql mbstring bcmath
+    && docker-php-ext-install pdo_mysql mbstring bcmath gd 
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
