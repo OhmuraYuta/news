@@ -48,4 +48,12 @@ class AuthController extends Controller
             return response()->json(['error' => 'Authentication failed', 'message' => $e->getMessage()], 401);
         }
     }
+
+    public function logout(Request $request)
+    {
+        // 今使っているトークンだけを無効化（削除）する
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->json(['message' => 'Logged out successfully']);
+    }
 }
