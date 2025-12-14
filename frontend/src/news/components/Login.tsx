@@ -1,8 +1,7 @@
 'use client';
 
-import { get } from 'lodash';
 import { useEffect, useState } from 'react';
-import { div } from 'three/webgpu';
+import { useRouter } from 'next/router';
 
 type User = {
   name: string;
@@ -13,6 +12,7 @@ export default function Login() {
   const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   const [user, setUser] = useState<User | null>(null);
+  const router = useRouter();
 
   const handleLogin = async () => {
     try {
@@ -57,11 +57,38 @@ export default function Login() {
     }
   }, [])
 
+const handleLogout = async () => {
+    const token = localStorage.getItem('token');
+
+    try {
+      // 1. Laravelにログアウト通知を送る
+      await fetch(BASE_URL + '/api/logout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+    } catch (error) {
+      console.error('Logout error:', error);
+      // エラーになっても、フロント側ではログアウトさせる
+    } finally {
+      // 2. ブラウザからトークンを削除
+      localStorage.removeItem('token');
+      router.reload();
+    }
+  };
+
   return (
     <div style={{ padding: '50px' }}>
       {user ?
         <div>
           ログイン済み{user?.name}{user?.email}
+          <button
+            onClick={handleLogout}
+          >
+            ログアウト
+          </button>
         </div> :
         <div>
           <h1>ログイン</h1>
