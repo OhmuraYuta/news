@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
+import { handleLogin } from '../utils/auth';
+
 type User = {
   name: string;
   email: string;
@@ -13,19 +15,6 @@ export default function Login() {
 
   const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
-
-  const handleLogin = async () => {
-    try {
-      // LaravelからGoogleの認証URLを取得
-      const res = await fetch(BASE_URL + '/api/auth/google/url');
-      const data = await res.json();
-      
-      // Googleへリダイレクト
-      window.location.href = data.url;
-    } catch (error) {
-      console.error('Login error:', error);
-    }
-  };
 
   const getUserInfo = async () => {
     const token = localStorage.getItem('token');
