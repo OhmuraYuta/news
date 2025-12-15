@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
-import { handleLogin } from '../utils/auth';
+import { handleLogin, hasToken, getHeader } from '../utils/auth';
 
 type User = {
   name: string;
@@ -17,15 +17,11 @@ export default function Login() {
   const router = useRouter();
 
   const getUserInfo = async () => {
-    const token = localStorage.getItem('token');
   
-    if (token) {
+    if (hasToken()) {
       fetch(BASE_URL + '/api/user', {
         method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        }
+        headers: getHeader()
       })
       .then((res) => {
         if(!res.ok) throw new Error('Failed');

@@ -11,3 +11,22 @@ export const handleLogin = async () => {
     console.error('Login error:', error);
   }
 };
+
+export const hasToken = (): boolean => {
+  const token = localStorage.getItem('token');
+  return !!token;
+}
+
+type MakeHeader = {
+  'Authorization': string;
+  'Content-Type': string;
+}
+
+export const getHeader = (): MakeHeader => {
+  const token = localStorage.getItem('token');
+
+  return ({
+    'Authorization': `Bearer ${token}`,
+    'Content-Type': 'application/json',
+  })
+}
