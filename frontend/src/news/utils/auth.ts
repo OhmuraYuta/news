@@ -13,6 +13,7 @@ export const handleLogin = async () => {
 };
 
 export const hasToken = (): boolean => {
+  if (typeof localStorage === 'undefined') return false;
   const token = localStorage.getItem('token');
   return !!token;
 }
