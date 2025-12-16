@@ -19,6 +19,8 @@ class MessageFactory extends Factory
     {
         return [
             'chat_id' => Chat::factory(),
+            'content' => $this->faker->sentence(),
+            'role' => 'user',
         ];
     }
 }
