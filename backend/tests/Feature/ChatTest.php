@@ -29,4 +29,15 @@ class ChatTest extends TestCase
         $response->assertStatus(200)
             ->assertJsonCount(10, 'data');
     }
+
+    public function test_post_chat(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->post('/api/chats');
+        $response->assertStatus(200)
+            ->assertJson(['data' => [
+                'chat_id' => 1
+            ]]);
+    }
 }
