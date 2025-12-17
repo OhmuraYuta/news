@@ -34,4 +34,46 @@ class MessageTest extends TestCase
         $response->assertStatus(200)
             ->assertJsonCount(10, 'data.messages');
     }
+
+    public function test_post_msg(): void
+    {
+        $user = User::factory()->create();
+        Chat::factory()->create(
+            [
+                'id' => 1,
+                'user_id' => $user->id
+            ]
+        );
+        $payload = [
+            'content' => 'hoge'
+        ];
+
+        $res = $this->actingAs($user)->post('api/chats/1/messages', $payload);
+
+        $res->assertStatus(201)
+            ->assertJson(['data' => [
+                'id' => 1,
+                'content' => 'hoge'
+            ]]);
+    }
+
+    public function test_update_msg(): void
+    {
+        $user = User::factory()->create();
+        $chat = Chat::factory()->create([
+                'user_id' => $user->id
+            ]);
+        $msg = Message::factory()->create([
+            'chat_id' => $chat->id,
+            'content' => 'hoge'
+        ]);
+        $payload = ['content' => 'fuga'];
+
+        $url = "/api/chats/$chat->id/messages/$msg->id";
+        $res = $this->actingAs($user)->put($url, $payload);
+        $res->assertStatus(200)
+            ->assertJson(['data' => [
+                'content' => 'fuga'
+            ]]);
+    }
 }
