@@ -25,7 +25,7 @@ export default function HamburgerContent({isOpen, toggle}: {isOpen: boolean, tog
         setChats(chats);
       })
     }
-  }, []);
+  }, [isOpen]);
 
   return (
       <div className="relative h-full w-screen flex">
