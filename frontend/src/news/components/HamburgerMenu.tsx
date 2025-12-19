@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+
 import HamburgerContent from "./HamburgerContent";
 
 export default function HamburgerMenu({ w, h }: { w: number; h: number }) {
@@ -11,6 +13,9 @@ export default function HamburgerMenu({ w, h }: { w: number; h: number }) {
   const wpx = w * 4;
   const hpx = h * 4;
   const space = (hpx - 16 - 2) / 2;
+
+  const router = useRouter();
+  useEffect(() => {setIsOpen(false);}, [router]);
 
   return (
     <div className="relative flex flex-col h-screen">
