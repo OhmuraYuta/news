@@ -1,12 +1,42 @@
 'use client';
 
+import { useState, useEffect } from "react";
+import { hasToken, getHeader } from "../utils/auth";
+
+type Chat = {
+  id: number;
+  title: string;
+  updated_at: string;
+}
+
 export default function HamburgerContent({isOpen, toggle}: {isOpen: boolean, toggle: () => void}) {
+  const [chats, setChats] = useState<Chat[]>([]);
+  const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+  useEffect(() => {
+    if(hasToken()) {
+      fetch(BASE_URL + '/api/chats', {
+        method: 'GET',
+        headers: getHeader()
+      })
+      .then((res) => res.json())
+      .then((json) => {
+        const chats = json.data;
+        setChats(chats);
+      })
+    }
+  }, []);
+
   return (
       <div className="relative h-full w-screen flex">
         <ul className="relative h-full w-[60vw] bg-white z-[60] transition-all duration-300"
           style={{transform: isOpen ? 'translateX(0%)':'translateX(-100%)' }}
         >
-          <li>ほげ</li>
+          {chats.length != 0 ?
+            chats.map((chat) => (
+              <li key={chat.id}>{chat.title}</li>
+            ))
+            : 'ログインしてください'}
         </ul>
         <div className={`bg-black/20 absolute bottom-0 w-full h-full transition-all duration-300
           ${isOpen ? 'opacity-100 z-50':'opacity-0 -z-5'}`}
