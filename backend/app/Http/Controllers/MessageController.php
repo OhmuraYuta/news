@@ -30,7 +30,6 @@ class MessageController extends Controller
             ->findOrFail($chat_id);
         
         $newMessage = $chat->messages()->create([
-            'chat_id' => Auth::id(),
             'role' => 'user',
             'content' => $request->content,
         ]);
