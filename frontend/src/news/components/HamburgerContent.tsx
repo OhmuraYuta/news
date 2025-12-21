@@ -35,7 +35,7 @@ export default function HamburgerContent({isOpen, toggle}: {isOpen: boolean, tog
         >
           {chats.length != 0 ?
             chats.map((chat) => (
-              <li key={chat.id}><Link href={`/chats/${chat.id}`}>{chat.title}</Link></li>
+              <li key={chat.id}><Link href={`/chats/${chat.id}`}>{chat.id}: {chat.title}</Link></li>
             ))
             : 'ログインしてください'}
         </ul>
