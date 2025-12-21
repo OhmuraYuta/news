@@ -6,7 +6,7 @@ import { hasToken, getHeader } from "../utils/auth";
 import { useRouter } from "next/router";
 import SendMessage from "./SendMessage";
 
-type Messages = {
+export type Messages = {
   id: string;
   chat_id: string;
   role: string;
@@ -36,7 +36,7 @@ export default function Chat() {
         setMessages(messages);
       })
     }
-  }, [router, chatId]);
+  }, [chatId]);
 
   return (
     <div>
@@ -48,7 +48,7 @@ export default function Chat() {
          'ログインしてください'
         }
       </ul>
-      <SendMessage />
+      <SendMessage setMessages={setMessages}/>
     </div>
   )
 }
