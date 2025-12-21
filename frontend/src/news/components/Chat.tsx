@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import { hasToken, getHeader } from "../utils/auth";
 import { useRouter } from "next/router";
+import SendMessage from "./SendMessage";
 
 type Messages = {
   id: string;
@@ -47,6 +48,7 @@ export default function Chat() {
          'ログインしてください'
         }
       </ul>
+      <SendMessage />
     </div>
   )
 }
