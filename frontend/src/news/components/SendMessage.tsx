@@ -3,9 +3,12 @@
 import React, { useState, Dispatch, SetStateAction } from "react";
 import { useRouter } from "next/router";
 
+import { v4 as uuidv4 } from "uuid";
+
 import Input from "./Input";
 import { hasToken, getHeader } from "../utils/auth";
 import { Messages } from "./Chat";
+import { queryToString } from "../utils/common";
 
 export default function SendMessage({setMessages}: {setMessages: Dispatch<SetStateAction<Messages[]>>}) {
 
@@ -14,7 +17,16 @@ export default function SendMessage({setMessages}: {setMessages: Dispatch<SetSta
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(text)
+    
+    const newMessage = {
+      id: uuidv4(),
+      chat_id: queryToString(router.query.chatId),
+      role: 'user',
+      content: text,
+      created_at: Date.now().toString(),
+      updated_at: Date.now().toString()
+    }
+    setMessages((prev) => [...prev, newMessage]);
 
     if (hasToken()) {
       const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
