@@ -17,6 +17,11 @@ export default function SendMessage({setMessages}: {setMessages: Dispatch<SetSta
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (text.trim() === '') {
+      setText('');
+      return;
+    }
     
     const newMessage = {
       id: uuidv4(),
