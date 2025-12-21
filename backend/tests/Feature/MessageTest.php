@@ -52,9 +52,13 @@ class MessageTest extends TestCase
 
         $res->assertStatus(201)
             ->assertJson(['data' => [
-                'id' => 1,
-                'content' => 'hoge'
+                'content' => 'test response',
+                'role' => 'gemini'
             ]]);
+
+        $this->assertDatabaseHas('messages', [
+            'content' => 'hoge'
+        ]);
     }
 
     public function test_update_msg(): void

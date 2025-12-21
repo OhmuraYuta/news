@@ -30,13 +30,17 @@ class MessageController extends Controller
             ->findOrFail($chat_id);
         
         $newMessage = $chat->messages()->create([
-            'chat_id' => Auth::id(),
             'role' => 'user',
-            'content' => $request->content,
+            'content' => $request->input('content'),
+        ]);
+
+        $geminiMessage = $chat->messages()->create([
+            'role' => 'gemini',
+            'content' => 'test response'
         ]);
 
         return response()->json([
-            'data' => $newMessage,
+            'data' => $geminiMessage,
         ], 201);
     }
 
@@ -62,7 +66,7 @@ class MessageController extends Controller
         ]);
 
         $message->update([
-            'content' => $request->content,
+            'content' => $request->input('content'),
         ]);
 
         return response()->json([

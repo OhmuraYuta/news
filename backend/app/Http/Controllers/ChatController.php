@@ -28,6 +28,18 @@ class ChatController extends Controller
      */
     public function store(Request $request)
     {
+        $createFlg = false;
+
+        $latestChat = Chat::where('user_id', Auth::id())->latest()->first();
+
+        if ($latestChat != null && $latestChat->messages()->count() == 0) {
+            return response()->json([
+                'data' => [
+                    'chat_id' => $latestChat->id
+                ]
+                ]);
+        } 
+
         $newChat = Chat::create([
             'user_id' => Auth::id(),
             'title' => 'test chat',

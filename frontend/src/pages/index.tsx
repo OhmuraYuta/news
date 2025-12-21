@@ -103,7 +103,7 @@ const Home = () => {
   return (
     <div className="h-[100svh] bg-cover" style={backgroundStyle}>
       <Meta />
-      <Introduction />
+      {/* <Introduction /> */}
       {modelType === 'vrm' ? <VrmViewer /> : <Live2DViewer />}
       <Form />
       <Menu />
