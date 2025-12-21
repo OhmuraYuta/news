@@ -105,8 +105,8 @@ const Home = () => {
       <Meta />
       {/* <Introduction /> */}
       {modelType === 'vrm' ? <VrmViewer /> : <Live2DViewer />}
-      {/* <Form /> */}
-      {/* <Menu /> */}
+      <Form />
+      <Menu />
       <ModalImage />
       {messageReceiverEnabled && <MessageReceiver />}
       <Toasts />
