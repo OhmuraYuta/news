@@ -1,0 +1,10 @@
+[tool.poetry]
+name = "api"
+version = "0.1.0"
+description = ""
+authors = ["ohmura"]
+
+[tool.poetry.dependencies]
+python = "^3.14"
+fastapi = {extras = ["standart"], version = "^0.127.0"}
+uvicorn = "^0.40.0"
