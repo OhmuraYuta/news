@@ -33,6 +33,19 @@ services:
       - backend
     restart: always
 
+  api:
+    build:
+      context: .
+      dockerfile: ./docker/api/Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/workdir
+    env_file:
+      - ./api/.env
+    restart: always
+    tty: true
+
   voicevox:
     image: voicevox/voicevox_engine:cpu-latest
     ports:
