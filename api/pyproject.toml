@@ -8,3 +8,4 @@ authors = ["ohmura"]
 python = "^3.14"
 fastapi = {extras = ["standart"], version = "^0.127.0"}
 uvicorn = "^0.40.0"
+google-genai = "^1.56.0"
