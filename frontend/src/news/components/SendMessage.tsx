@@ -5,6 +5,8 @@ import { useRouter } from "next/router";
 
 import { v4 as uuidv4 } from "uuid";
 
+import { speakMessageHandler } from '@/features/chat/handlers';
+
 import Input from "./Input";
 import { hasToken, getHeader } from "../utils/auth";
 import { Messages } from "./Chat";
@@ -48,6 +50,7 @@ export default function SendMessage({setMessages}: {setMessages: Dispatch<SetSta
       .then((json) => json.data)
       .then((data) => {
         console.log(data)
+        speakMessageHandler(data.content);
         setMessages((prev) => [...prev, data]);
       })
     }
