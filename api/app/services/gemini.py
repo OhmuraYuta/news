@@ -1,8 +1,9 @@
-# 新しいライブラリのインポート
 from google import genai
 from google.genai import types
 
 from ..schemas.gemini import GeminiRequest
+from .prompt import Prompt
+from .youtube import get_youtube_video_info
 
 async def gemini(request: GeminiRequest):
   
@@ -14,11 +15,14 @@ async def gemini(request: GeminiRequest):
 
   chat = client.chats.create(
     model="gemini-3-flash-preview",
+    config=types.GenerateContentConfig(
+      system_instruction=Prompt.system_instruction,
+      tools=[get_youtube_video_info],
+    ),
     history=history
   )
 
   res = chat.send_message(request.text)
-  print(res.text, type(res.text))
 
   return res.text
 
