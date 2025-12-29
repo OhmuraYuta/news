@@ -4,15 +4,23 @@ from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api.formatters import TextFormatter
 
 def get_youtube_video_info(query: str) -> str:
-    """
-    YouTubeで動画を検索し、その字幕と基本情報を取得する関数。
-    
+    """Searches YouTube for a video and retrieves its transcript.
+
+    Performs a search on YouTube using the provided query, selects the top
+    result, and fetches the subtitle (transcript) data. The content is
+    returned as a formatted string suitable for reading by the LLM.
+
     Args:
-        query (str): ユーザーが知りたいニュースのキーワード (例: "最新 AI トレンド")
-        
+        query: A string representing the keywords to search for on YouTube.
+
     Returns:
-        str: 動画のタイトル、URL、字幕内容を含むJSON文字列。
-             字幕がない場合は、その旨を伝えるメッセージ。
+        A formatted string containing the video title and the transcript content.
+        The transcript is truncated to a maximum length to ensure it fits within
+        context limits.
+
+        If no video is found, no transcript is available, or an internal error
+        occurs (e.g., network issue), a descriptive error message string is
+        returned.
     """
     print(f"DEBUG: YouTubeで '{query}' を検索中...")
 
