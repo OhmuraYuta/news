@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Chat;
 use App\Models\Message;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 class MessageController extends Controller
 {
@@ -28,15 +29,31 @@ class MessageController extends Controller
 
         $chat = Chat::where('user_id', Auth::id())
             ->findOrFail($chat_id);
+            
+        $rawMessages = $chat->messages()->get();
         
-        $newMessage = $chat->messages()->create([
+        
+        $messages = $rawMessages->map(function ($rawMsg) {
+            return [
+                'role' => $rawMsg->role,
+                'text' => $rawMsg->content
+            ];
+        })->all();
+        
+        $payload = [
+            'messages' => $messages,
+            'text' => $request->input('content')
+        ];
+        $res = Http::post('http://api:8000/gemini', $payload);
+        
+        $chat->messages()->create([
             'role' => 'user',
             'content' => $request->input('content'),
         ]);
-
+            
         $geminiMessage = $chat->messages()->create([
-            'role' => 'gemini',
-            'content' => 'test response'
+            'role' => 'model',
+            'content' => $res->json()['text']
         ]);
 
         return response()->json([
