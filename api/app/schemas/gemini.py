@@ -7,6 +7,7 @@ class Message(BaseModel):
 
 class GeminiRequest(BaseModel):
   messages: List[Message]
+  character: str | None = None
   text: str
 
 class GeminiResponse(BaseModel):
