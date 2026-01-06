@@ -18,7 +18,7 @@ export default function HamburgerMenu({ w, h }: { w: number; h: number }) {
   useEffect(() => {setIsOpen(false);}, [router]);
 
   return (
-    <div className="relative flex flex-col h-screen">
+    <nav>
       <button
         onClick={toggle}
         style={{ width: `${wpx}px`, height: `${hpx}px` }}
@@ -42,9 +42,7 @@ export default function HamburgerMenu({ w, h }: { w: number; h: number }) {
           className="bg-black block transition-all duration-300 h-0.5 w-full rounded-sm origin-center"
         ></span>
       </button>
-      <div className="flex-1">
-        <HamburgerContent isOpen={isOpen} toggle={toggle}/>
-      </div>
-    </div>
+      <HamburgerContent isOpen={isOpen} toggle={toggle}/>
+    </nav>
   );
 }

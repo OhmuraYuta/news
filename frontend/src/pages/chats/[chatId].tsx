@@ -24,12 +24,9 @@ const Message = () => {
     <div>
       chat id: {chatId}
       <HamburgerMenu w={10} h={8} />
-      <div className='absolute bottom-60 z-50'>
-        <Chat />
-      </div>
+      <Chat />
       {modelType === 'vrm' ? <VrmViewer /> : <Live2DViewer />}
-      {/* <Wrapper /> */}
-      <div className='absolute bottom-0 z-50'>
+      <div className='fixed bottom-0 z-50'>
         <NewChatsBtn />
         <Login />
       </div>
