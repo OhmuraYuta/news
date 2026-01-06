@@ -3,32 +3,38 @@ from bs4 import BeautifulSoup
 from playwright.sync_api import sync_playwright
 
 
-def scrape_news(query: str) -> str:
+def scrape_news(url: str) -> str:
+    """指定された産経新聞のURLからニュース記事の本文テキストを抽出します。
 
-    print(f"DEBUG: キーワード: {query}でスクレイピング")
+    HTTP GETリクエストを使用してページのHTMLを取得し、CSSセレクタを用いて
+    産経新聞の記事のメインコンテンツ部分を抜き出します。
 
-    url = f"https://www.sankei.com/search/"
-    params = {"kw": query}
+    Args:
+        url: 記事を取得したいウェブページのURL。
+
+    Returns:
+        抽出された記事本文の文字列。
+
+    Raises:
+        requests.exceptions.RequestException: ページの取得中にネットワークエラーや
+            HTTPエラーが発生した場合に送出されます。
+        AttributeError: 指定されたセレクタ（.article-body）がページ内に見つからず、
+            テキストの抽出に失敗した場合に送出されます。
+    """
+
+    print(f"DEBUG: キーワード: {url}でスクレイピング")
+
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
     }
-    res = requests.get(url, headers=headers, params=params)
+    res = requests.get(url, headers=headers)
     res.encoding = res.apparent_encoding
 
     soup = BeautifulSoup(res.text, "html.parser")
 
-    print(res.text)
+    result = soup.select_one(".article-body").text
 
-    news_list = soup.select("article.storycard")
-
-    print(len(news_list))
-
-    result = [
-        {"title": news.select_one("a"), "url": news.select_one("a").get("href")}
-        for news in news_list
-    ]
-
-    print(result)
+    return result
 
 
 def scrape_with_playwright(query: str) -> str:
@@ -100,4 +106,4 @@ def scrape_with_playwright(query: str) -> str:
 
 
 if __name__ == "__main__":
-    print(scrape_with_playwright("AI"))
+    print(scrape_news('https://sankei.com/article/20260106-FBLZCTMAKVJYHMXCNG6VMXUCXI/'))
