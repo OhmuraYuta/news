@@ -33,6 +33,14 @@ services:
       - backend
     restart: always
 
+  playwright:
+    image: mcr.microsoft.com/playwright/python:v1.57.0-noble
+    ports:
+      - "3001:3001"
+    working_dir: /home/pwuser
+    user: pwuser
+    command: /bin/sh -c "npx -y playwright@1.57.0 run-server --port 3001 --host 0.0.0.0"
+
   api:
     build:
       context: .
