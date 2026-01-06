@@ -15,6 +15,7 @@ import { queryToString } from "../utils/common";
 export default function SendMessage({setMessages}: {setMessages: Dispatch<SetStateAction<Messages[]>>}) {
 
   const [text, setText] = useState<string>('');
+  const [character, setCharacter] = useState<string>('');
   const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -44,7 +45,7 @@ export default function SendMessage({setMessages}: {setMessages: Dispatch<SetSta
           ...getHeader(),
           'Accept': 'application/json'
         },
-        body: JSON.stringify({content: text})
+        body: JSON.stringify({character: character, content: text})
       })
       .then((res) => res.json())
       .then((json) => json.data)
@@ -59,7 +60,9 @@ export default function SendMessage({setMessages}: {setMessages: Dispatch<SetSta
   };
 
   return (
-    <form onSubmit={handleSubmit} className="relative z-[51]">
+    <form onSubmit={handleSubmit} className="relative z-[51] m-3">
+      <p>性格</p>
+      <div className="border border-black w-1/3"><Input text={character} setText={setCharacter} /></div>
       <div className="border border-black"><Input text={text} setText={setText} /></div>
       <button type="submit">送信</button>
     </form>
