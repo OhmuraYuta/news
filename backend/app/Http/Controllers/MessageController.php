@@ -46,6 +46,13 @@ class MessageController extends Controller
             'character' => $request->input('character'),
             'text' => $request->input('content')
         ];
+
+        $makeTitle = false;
+        if ($chat->title == "新規チャット") {
+            $payload["makeTitle"] = true;
+            $makeTitle = true;
+        }
+
         $res = Http::post('http://api:8000/gemini', $payload);
         
         $chat->messages()->create([
@@ -57,6 +64,12 @@ class MessageController extends Controller
             'role' => 'model',
             'content' => $res->json()['text']
         ]);
+
+        if ($makeTitle) {
+            $chat->update([
+                'title' => $res->json()['title']
+            ]);
+        }
 
         return response()->json([
             'data' => $geminiMessage,
