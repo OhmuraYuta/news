@@ -26,6 +26,11 @@ async def gemini(request: GeminiRequest):
 
   res = chat.send_message(request.text)
 
-  return res.text
+  title = None
+  if request.makeTitle:
+    rawTitle = chat.send_message("この会話のタイトルを簡潔につけてください。純粋にタイトルのみを返してください。")
+    title = rawTitle.text
+
+  return res.text, title
 
   # return 'test response'

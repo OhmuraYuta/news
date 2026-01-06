@@ -7,5 +7,5 @@ router = APIRouter()
 
 @router.post("/gemini", response_model=GeminiResponse)
 async def gemini(request: GeminiRequest):
-  res = await gemini_service(request)
-  return {"text": res}
+  res, title = await gemini_service(request)
+  return {"text": res, "title": title}
