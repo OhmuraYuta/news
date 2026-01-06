@@ -34,7 +34,7 @@ services:
     restart: always
 
   playwright:
-    image: mcr.microsoft.com/playwright/python:v1.57.0-noble
+    image: mcr.microsoft.com/playwright:v1.57.0-noble
     ports:
       - "3001:3001"
     working_dir: /home/pwuser
