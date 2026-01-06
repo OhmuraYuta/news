@@ -42,7 +42,7 @@ class ChatController extends Controller
 
         $newChat = Chat::create([
             'user_id' => Auth::id(),
-            'title' => 'test chat',
+            'title' => '新規チャット',
         ]);
 
         return response()->json([
