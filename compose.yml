@@ -40,6 +40,8 @@ services:
     working_dir: /home/pwuser
     user: pwuser
     command: /bin/sh -c "npx -y playwright@1.57.0 run-server --port 3001 --host 0.0.0.0"
+    tty: true
+    stdin_open: true
 
   api:
     build:
