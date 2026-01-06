@@ -5,6 +5,7 @@ from ..schemas.gemini import GeminiRequest
 from .prompt import Prompt
 from .youtube import get_youtube_video_info
 from .apitube import get_news_from_apitube
+from .scrape import scrape_news, scrape_with_playwright
 
 async def gemini(request: GeminiRequest):
   
@@ -18,7 +19,7 @@ async def gemini(request: GeminiRequest):
     model="gemini-3-flash-preview",
     config=types.GenerateContentConfig(
       system_instruction=Prompt.system_instruction,
-      tools=[get_youtube_video_info, get_news_from_apitube],
+      tools=[get_youtube_video_info, get_news_from_apitube, scrape_news, scrape_with_playwright],
     ),
     history=history
   )
