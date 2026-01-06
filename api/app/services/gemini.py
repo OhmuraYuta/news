@@ -18,7 +18,7 @@ async def gemini(request: GeminiRequest):
   chat = client.chats.create(
     model="gemini-3-flash-preview",
     config=types.GenerateContentConfig(
-      system_instruction=Prompt.system_instruction,
+      system_instruction=Prompt.system_instruction(request.character),
       tools=[get_youtube_video_info, get_news_from_apitube, scrape_news, scrape_with_playwright],
     ),
     history=history
