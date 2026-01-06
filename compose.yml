@@ -33,6 +33,29 @@ services:
       - backend
     restart: always
 
+  playwright:
+    image: mcr.microsoft.com/playwright:v1.57.0-noble
+    ports:
+      - "3001:3001"
+    working_dir: /home/pwuser
+    user: pwuser
+    command: /bin/sh -c "npx -y playwright@1.57.0 run-server --port 3001 --host 0.0.0.0"
+    tty: true
+    stdin_open: true
+
+  api:
+    build:
+      context: .
+      dockerfile: ./docker/api/Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/workdir
+    env_file:
+      - ./api/.env
+    restart: always
+    tty: true
+
   voicevox:
     image: voicevox/voicevox_engine:cpu-latest
     ports:

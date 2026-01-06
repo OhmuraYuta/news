@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "api"
+version = "0.1.0"
+description = ""
+authors = ["ohmura"]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = ">=3.14,<3.15"
+fastapi = {extras = ["standart"], version = "^0.127.0"}
+uvicorn = "^0.40.0"
+google-genai = "^1.56.0"
+youtube-search = "^2.2.0"
+youtube-transcript-api = "^1.2.3"
+beautifulsoup4 = "^4.14.3"
+playwright = "1.57.0"
+nest-asyncio = "^1.6.0"
