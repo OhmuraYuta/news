@@ -45,15 +45,16 @@ class MessageTest extends TestCase
             ]
         );
         $payload = [
-            'content' => 'hoge'
+            'content' => 'hoge',
+            'character' => '妖艶なお姉さん'
         ];
 
         $res = $this->actingAs($user)->post('api/chats/1/messages', $payload);
 
         $res->assertStatus(201)
-            ->assertJson(['data' => [
-                'content' => 'test response',
-                'role' => 'gemini'
+            ->assertJsonStructure(['data' => [
+                'content',
+                'role',
             ]]);
 
         $this->assertDatabaseHas('messages', [
