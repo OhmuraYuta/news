@@ -24,6 +24,7 @@ class MessageController extends Controller
     public function store(Request $request, $chat_id)
     {
         $request->validate([
+            'character' => 'string|nullable',
             'content' => 'required|string',
         ]);
 
@@ -42,6 +43,7 @@ class MessageController extends Controller
         
         $payload = [
             'messages' => $messages,
+            'character' => $request->input('character'),
             'text' => $request->input('content')
         ];
         $res = Http::post('http://api:8000/gemini', $payload);
