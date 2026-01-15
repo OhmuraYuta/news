@@ -25,6 +25,7 @@ RUN apt-get update && apt-get install -y \
     librsvg2-2 \
     && rm -rf /var/lib/apt/lists/*
 COPY --from=builder /workdir/frontend/next.config.js ./
+COPY --from=builder /workdir/frontend/.env* ./
 COPY --from=builder /workdir/frontend/public ./public
 COPY --from=builder /workdir/frontend/.next ./.next
 COPY --from=builder /workdir/frontend/node_modules ./node_modules
