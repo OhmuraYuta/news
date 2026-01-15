@@ -11,28 +11,29 @@ export default function AuthCallbackPage() {
     const code = searchParams.get('code');
 
     if (code) {
+      const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
       // Laravelにコードを送信してトークンをもらう
-      fetch('http://localhost:8080/api/auth/google/callback', {
+      fetch(BASE_URL + '/api/auth/google/callback', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ code }), // Googleから貰ったcodeを送る
       })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.token) {
-          console.log('Token:', data.token);
-          // ここでトークンをCookieやlocalStorageに保存する
-          localStorage.setItem('token', data.token);
-          
-          // ログイン後のページへ遷移
-          router.push('/');
-        } else {
-          console.error('Login failed', data);
-        }
-      })
-      .catch((err) => console.error('Error:', err));
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.token) {
+            console.log('Token:', data.token);
+            // ここでトークンをCookieやlocalStorageに保存する
+            localStorage.setItem('token', data.token);
+
+            // ログイン後のページへ遷移
+            router.push('/');
+          } else {
+            console.error('Login failed', data);
+          }
+        })
+        .catch((err) => console.error('Error:', err));
     }
   }, [searchParams, router]);
 

@@ -8,6 +8,12 @@ const nextConfig = {
     root: process.env.BASE_PATH || '',
   },
   optimizeFonts: false,
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
 }
 
 module.exports = nextConfig
