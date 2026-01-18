@@ -25,11 +25,12 @@ class AuthController extends Controller
             // stateless() はAPI認証でセッションを使わない場合に必須です
             $googleUser = Socialite::driver('google')->stateless()->user();
 
-            // ユーザーを検索、または作成（メールアドレスをキーにする例）
-            $user = User::firstOrCreate(
+            // ユーザーを更新、または作成（メールアドレスをキーにする例）
+            $user = User::updateOrCreate(
                 ['email' => $googleUser->getEmail()],
                 [
                     'name' => $googleUser->getName(),
+                    'avatar_url' => $googleUser->getAvatar(),
                     'password' => bcrypt(Str::random(16)), // ランダムなパスワード
                     // 必要に応じてgoogle_idなどを保存するカラムを追加してください
                 ]
