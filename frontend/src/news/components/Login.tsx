@@ -8,6 +8,7 @@ import { handleLogin, hasToken, getHeader } from '../utils/auth';
 type User = {
   name: string;
   email: string;
+  avatar_url?: string;
 };
 
 export default function Login() {
@@ -42,7 +43,7 @@ export default function Login() {
     }
   }, [])
 
-const handleLogout = async () => {
+  const handleLogout = async () => {
     const token = localStorage.getItem('token');
 
     try {
@@ -64,15 +65,27 @@ const handleLogout = async () => {
     }
   };
 
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggle = () => setIsOpen(!isOpen);
+
   return (
     <div style={{ padding: '50px' }}>
       {user ?
         <div>
-          ログイン済み{user?.name}{user?.email}
-          <button
-            onClick={handleLogout}
-          >
-            ログアウト
+          <button onClick={toggle}>
+            <img src={user.avatar_url} alt={user?.name} />
+            {isOpen ?
+              <div>
+                <p>{user?.email}</p>
+                <p>{user?.name}</p>
+                <button
+                  onClick={handleLogout}
+                >
+                  ログアウト
+                </button>
+              </div> : null
+            }
           </button>
         </div> :
         <div>
