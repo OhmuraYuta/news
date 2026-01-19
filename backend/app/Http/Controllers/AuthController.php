@@ -13,7 +13,7 @@ class AuthController extends Controller
     // 1. GoogleのログインURLをフロントエンドに返す
     public function getGoogleAuthUrl()
     {
-        $url = Socialite::driver('google')->stateless()->redirect()->getTargetUrl();
+        $url = Socialite::driver('google')->with(['prompt' => 'select_account'])->stateless()->redirect()->getTargetUrl();
         return response()->json(['url' => $url]);
     }
 
