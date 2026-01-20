@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
+import { getHeader, getOrCreateChat } from '@/news/utils/auth';
 
 export default function AuthCallbackPage() {
   const searchParams = useSearchParams();
@@ -27,8 +28,14 @@ export default function AuthCallbackPage() {
             // ここでトークンをCookieやlocalStorageに保存する
             localStorage.setItem('token', data.token);
 
-            // ログイン後のページへ遷移
-            router.push('/');
+            // リダイレクト先を取得
+            getOrCreateChat()
+              .then((path) => {
+                // ログイン後のページへ遷移
+                console.log(path)
+                router.push(path);
+              })
+
           } else {
             console.error('Login failed', data);
           }
