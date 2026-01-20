@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Message extends Model
 {
     use HasFactory;
+
+    protected $touches = ['chat'];
     
     protected $fillable = [
         'content',

@@ -11,7 +11,15 @@ import '@/styles/themes.css'
 import migrateStore from '@/utils/migrateStore'
 import i18n from '../lib/i18n'
 
+import { useRouter } from 'next/router'
+import { hasToken } from '@/news/utils/auth'
+
+// ログインしていなくてもアクセスできるパスのリスト
+const publicPaths = ['/auth/login', '/auth/callback'];
+
 export default function App({ Component, pageProps }: AppProps) {
+  const router = useRouter();
+
   useEffect(() => {
     const hs = homeStore.getState()
     const ss = settingsStore.getState()
@@ -41,7 +49,14 @@ export default function App({ Component, pageProps }: AppProps) {
     document.documentElement.setAttribute('data-theme', ss.colorTheme)
 
     homeStore.setState({ userOnboarded: true })
-  }, [])
+
+    const isPublicPath = publicPaths.includes(router.pathname);
+    if (!isPublicPath && !hasToken()) {
+      // ログインページへリダイレクト
+      router.push('/auth/login');
+    }
+
+  }, [router.pathname])
 
   return (
     <>

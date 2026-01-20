@@ -7,6 +7,8 @@ RUN apt-get update && apt-get install -y \
     zip \
     curl \
     unzip \
+    wget \
+    procps \
     libpng-dev \
     libjpeg-dev \
     libonig-dev \
