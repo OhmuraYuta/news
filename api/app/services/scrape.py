@@ -57,6 +57,7 @@ async def scrape_with_playwright(query: str) -> str | Results:
 
     Args:
         query: 検索に使用するキーワード。
+        キーワードが多すぎると検索結果が出ないので気をつけてください。
 
     Returns:
         取得した記事情報のリスト、またはエラーメッセージ。
