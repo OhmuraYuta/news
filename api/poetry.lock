@@ -944,18 +944,6 @@ files = [
 ]
 
 [[package]]
-name = "nest-asyncio"
-version = "1.6.0"
-description = "Patch asyncio to allow nested event loops"
-optional = false
-python-versions = ">=3.5"
-groups = ["main"]
-files = [
-    {file = "nest_asyncio-1.6.0-py3-none-any.whl", hash = "sha256:87af6efd6b5e897c81050477ef65c62e2b2f35d51703cae01aff2905b1852e1c"},
-    {file = "nest_asyncio-1.6.0.tar.gz", hash = "sha256:6f172d5449aca15afd6c646851f4e31e02c598d553a667e38cafa997cfec55fe"},
-]
-
-[[package]]
 name = "playwright"
 version = "1.57.0"
 description = "A high-level API to automate web browsers"
@@ -2112,4 +2100,4 @@ requests = "*"
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.14,<3.15"
-content-hash = "e9364fcfde0248abad2ae1ee9e1ad3a378cc13fa427b660872ab7fb4533e3340"
+content-hash = "2004c72799644e97be0b310007c3a91f2c1c458a490dedc1bb5941e6e6cbf38c"
