@@ -29,4 +29,4 @@ COPY docker/api/.extra_bashrc /root/.extra_bashrc
 RUN echo "source /root/.extra_bashrc" >> /root/.bashrc
 RUN poetry install --no-root
 
-CMD ["poetry", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+CMD ["poetry", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload", "--loop", "asyncio"]

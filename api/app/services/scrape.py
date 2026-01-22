@@ -1,5 +1,3 @@
-import asyncio
-import nest_asyncio
 import requests
 from bs4 import BeautifulSoup
 from playwright.async_api import async_playwright
@@ -50,9 +48,30 @@ def scrape_news(url: str) -> str:
 
     return result
 
-nest_asyncio.apply()
+async def scrape_with_playwright(query: str) -> str | Results:
+    """産経新聞のサイトから指定したキーワードで記事のタイトルとURLを取得します。
 
-async def _async_scrape_with_playwright(query: str) -> str | Results:
+    Playwrightを使用してブラウザを操作し、検索結果ページから記事情報を抽出します。
+    パフォーマンス向上のため、画像やスタイルシートなどの不要なリソースの読み込みは
+    ブロックされます。
+
+    Args:
+        query: 検索に使用するキーワード。
+        キーワードが多すぎると検索結果が出ないので気をつけてください。
+
+    Returns:
+        取得した記事情報のリスト、またはエラーメッセージ。
+        成功した場合、各要素が 'title'（記事題名）と 'url'（記事リンク）を
+        持つ辞書のリストを返します。
+        例:
+        [{'title': 'ニュースのタイトル', 'url': 'https://sankei.com/...'}]
+
+        検索結果の要素が見つからない場合は "取得に失敗しました" という文字列を返します。
+
+    Raises:
+        Playwright関連のエラー: ブラウザの接続やページの遷移中に修復不可能な
+        エラーが発生した場合に送出されます。
+    """
 
     print(f"DEBUG: キーワード: {query}でスクレイピング")
 
@@ -102,37 +121,6 @@ async def _async_scrape_with_playwright(query: str) -> str | Results:
 
         return results
     
-def scrape_with_playwright(query: str) -> str | Results:
-    """産経新聞のサイトから指定したキーワードで記事のタイトルとURLを取得します。
-
-    Playwrightを使用してブラウザを操作し、検索結果ページから記事情報を抽出します。
-    パフォーマンス向上のため、画像やスタイルシートなどの不要なリソースの読み込みは
-    ブロックされます。
-
-    Args:
-        query: 検索に使用するキーワード。
-
-    Returns:
-        取得した記事情報のリスト、またはエラーメッセージ。
-        成功した場合、各要素が 'title'（記事題名）と 'url'（記事リンク）を
-        持つ辞書のリストを返します。
-        例:
-        [{'title': 'ニュースのタイトル', 'url': 'https://sankei.com/...'}]
-
-        検索結果の要素が見つからない場合は "取得に失敗しました" という文字列を返します。
-
-    Raises:
-        Playwright関連のエラー: ブラウザの接続やページの遷移中に修復不可能な
-        エラーが発生した場合に送出されます。
-    """
-    try:
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        result = loop.run_until_complete(_async_scrape_with_playwright(query))
-        loop.close()
-        return result
-    except Exception as e:
-        return f"エラー: {e}"
 
 
 if __name__ == "__main__":

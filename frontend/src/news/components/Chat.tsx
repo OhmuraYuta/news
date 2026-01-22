@@ -23,7 +23,7 @@ export default function Chat() {
   const chatId = router.query.chatId;
 
   useEffect(() => {
-    if (hasToken()) {
+    if (chatId && hasToken()) {
       const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
       const url = `${BASE_URL}/api/chats/${chatId}`
       fetch(url, {

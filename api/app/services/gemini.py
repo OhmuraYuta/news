@@ -15,7 +15,7 @@ async def gemini(request: GeminiRequest):
 
   client = genai.Client()
 
-  chat = client.chats.create(
+  chat = client.aio.chats.create(
     model="gemini-3-flash-preview",
     config=types.GenerateContentConfig(
       system_instruction=Prompt.system_instruction(request.character),
@@ -24,13 +24,13 @@ async def gemini(request: GeminiRequest):
     history=history
   )
 
-  res = chat.send_message(request.text)
+  res = await chat.send_message(request.text)
 
   title = None
   if request.makeTitle:
-    rawTitle = chat.send_message("この会話のタイトルを簡潔につけてください。純粋にタイトルのみを返してください。")
+    rawTitle = await chat.send_message("この会話のタイトルを簡潔につけてください。純粋にタイトルのみを返してください。")
     title = rawTitle.text
 
-  return res.text, title
+  await client.aio.aclose()
 
-  # return 'test response'
+  return res.text, title
