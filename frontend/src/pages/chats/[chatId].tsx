@@ -18,7 +18,7 @@ const Message = () => {
         <Login />
       </div>
       <Chat />
-      <div className='w-full h-full relative after:bg-[#cfcfcf] after:content-[""] after:absolute after:bottom-0 after:h-[21vh] after:w-screen after:z-10'>
+      <div className='absolute top-0 w-full h-full after:bg-[#cfcfcf] after:content-[""] after:absolute after:bottom-0 after:h-[21vh] after:w-screen after:z-10'>
         <VrmViewer />
       </div>
     </div>
