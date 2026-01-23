@@ -7,7 +7,6 @@ import VrmViewer from '@/components/vrmViewer';
 import Wrapper from '@/news/components/Wrapper';
 import Chat from '@/news/components/Chat';
 import Login from '@/news/components/Login';
-import NewChatsBtn from '@/news/components/NewChat';
 import HamburgerMenu from '@/news/components/HamburgerMenu';
 
 const Message = () => {
@@ -19,7 +18,9 @@ const Message = () => {
         <Login />
       </div>
       <Chat />
-      <VrmViewer />
+      <div className='w-full h-full relative after:bg-[#cfcfcf] after:content-[""] after:absolute after:bottom-0 after:h-[21vh] after:w-screen after:z-10'>
+        <VrmViewer />
+      </div>
     </div>
   )
 };
