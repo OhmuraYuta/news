@@ -18,7 +18,7 @@ export default function HamburgerMenu({ w, h }: { w: number; h: number }) {
   useEffect(() => {setIsOpen(false);}, [router]);
 
   return (
-    <nav>
+    <nav style={{ width: `${wpx}px`, height: `${hpx}px` }}>
       <button
         onClick={toggle}
         style={{ width: `${wpx}px`, height: `${hpx}px` }}
