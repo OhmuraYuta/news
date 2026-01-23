@@ -39,15 +39,28 @@ export default function Chat() {
   }, [chatId]);
 
   return (
-    <div>
-      <ul>
-        {messages ?
-         messages.map((message) => (
-          <li key={message.id}>{message.role}: {message.content}</li>
-         )) :
-         'ログインしてください'
-        }
-      </ul>
+    <div className="h-[50vh] w-screen absolute bottom-0 z-[70] bg-gradient-to-b from-white/0 to-[#6F93BC]">
+      <div className="h-4/5">
+        <ul className="h-full overflow-scroll w-4/5 mx-auto space-y-3">
+          {messages ?
+           messages.map((message) => (
+            <li key={message.id}
+              className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+            >
+              <div className={`max-w-[80%] p-3 rounded-2xl
+                ${message.role === 'user' ?
+                  'bg-[#3E6EA2] text-[#E8F0F8]' :
+                  'bg-white text-gray-800'
+                }
+              `}>
+                {message.content}
+              </div>
+            </li>
+           )) :
+           'ログインしてください'
+          }
+        </ul>
+      </div>
       <SendMessage setMessages={setMessages}/>
     </div>
   )
