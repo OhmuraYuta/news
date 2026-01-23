@@ -13,51 +13,67 @@ import i18n from '../lib/i18n'
 
 import { useRouter } from 'next/router'
 import { hasToken } from '@/news/utils/auth'
+import Loading from '@/news/components/Loading'
 
 // ログインしていなくてもアクセスできるパスのリスト
 const publicPaths = ['/auth/login', '/auth/callback'];
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
+  const [isMounted, setIsMounted] = React.useState(false);
 
+  const isPublicPath = publicPaths.includes(router.pathname);
+
+  
   useEffect(() => {
+    setIsMounted(true);
+
+    if (!isPublicPath && !hasToken()) {
+      // ログインページへリダイレクト
+      router.push('/auth/login');
+    }
+    
     const hs = homeStore.getState()
     const ss = settingsStore.getState()
-
+    
     if (hs.userOnboarded) {
       i18n.changeLanguage(ss.selectLanguage)
       // 保存されたテーマを適用
       document.documentElement.setAttribute('data-theme', ss.colorTheme)
       return
     }
-
+    
     migrateStore()
-
+    
     const browserLanguage = navigator.language
     const languageCode = browserLanguage.match(/^zh/i)
-      ? 'zh'
-      : browserLanguage.split('-')[0].toLowerCase()
-
+    ? 'zh'
+    : browserLanguage.split('-')[0].toLowerCase()
+    
     let language = ss.selectLanguage
     if (!language) {
       language = isLanguageSupported(languageCode) ? languageCode : 'ja'
     }
     i18n.changeLanguage(language)
     settingsStore.setState({ selectLanguage: language })
-
+    
     // 初期テーマを適用
     document.documentElement.setAttribute('data-theme', ss.colorTheme)
-
+    
     homeStore.setState({ userOnboarded: true })
-
-    const isPublicPath = publicPaths.includes(router.pathname);
-    if (!isPublicPath && !hasToken()) {
-      // ログインページへリダイレクト
-      router.push('/auth/login');
-    }
-
+    
   }, [router.pathname])
-
+  
+  if (!isMounted || (!isPublicPath && !hasToken())) {
+    return (
+      <div className="w-screen h-screen content-center text-center">
+        <div className="w-fit mx-auto mb-5">
+          <Loading />
+        </div>
+        <p>リダイレクト中</p>
+      </div>
+    );
+  }
   return (
     <>
       <Component {...pageProps} />
