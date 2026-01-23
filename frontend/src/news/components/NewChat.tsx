@@ -31,6 +31,7 @@ export default function NewChatsBtn() {
     <button
       onClick={createNewChat}
     >
+      <i className="fa-regular fa-pen-to-square mr-2"></i>
       新規チャット
     </button>
   )
