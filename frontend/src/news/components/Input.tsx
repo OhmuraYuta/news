@@ -8,7 +8,7 @@ export default function Input({text, setText, placeholder}: {text: string, setTe
       onChange={(e) => setText(e.target.value)}
       value={text}
       placeholder={placeholder}
-      className="w-full h-full"
+      className="w-full h-full focus:outline-none"
     />
   )
 }
