@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 import { hasToken, getHeader } from "../utils/auth";
 import { useRouter } from "next/router";
@@ -38,10 +38,17 @@ export default function Chat() {
     }
   }, [chatId]);
 
+  const scrollRef = useRef<HTMLUListElement>(null);
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [messages]);
+
   return (
     <div className="h-[50vh] w-screen absolute bottom-0 z-[70] bg-gradient-to-b from-white/0 to-[#6F93BC]">
       <div className="h-[70%]">
-        <ul className="h-full overflow-scroll w-4/5 mx-auto space-y-3">
+        <ul className="h-full overflow-scroll w-4/5 mx-auto space-y-3" ref={scrollRef}>
           {messages ?
            messages.map((message) => (
             <li key={message.id}
