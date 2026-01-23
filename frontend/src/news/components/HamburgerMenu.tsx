@@ -21,14 +21,15 @@ export default function HamburgerMenu({ w, h }: { w: number; h: number }) {
     <nav style={{ width: `${wpx}px`, height: `${hpx}px` }}>
       <button
         onClick={toggle}
-        style={{ width: `${wpx}px`, height: `${hpx}px` }}
-        className="flex flex-col p-2 justify-between items-center group relative z-[70]"
+        style={{ width: `${wpx}px`, height: `${hpx}px`, transform: isOpen ? `translateX(calc(60vw - ${wpx}px))` : 'translateX(0)' }}
+        className="flex flex-col p-2 justify-between items-center group relative z-[73] transition-transform duration-300"
       >
         <span
           style={{
             transform: isOpen ? `translateY(${space}px) rotate(45deg)` : "translateY(0) rotate(0)",
           }}
-          className="bg-black block transition-all duration-300 h-0.5 w-full rounded-sm origin-center"
+          className={`selection:block transition-all duration-300 h-0.5 w-full rounded-sm origin-center
+            ${isOpen ? 'bg-white' : 'bg-black'}`}
         ></span>
         <span
           className={`bg-black block transition-all duration-300 h-0.5 w-full rounded-sm ${
@@ -39,7 +40,9 @@ export default function HamburgerMenu({ w, h }: { w: number; h: number }) {
           style={{
             transform: isOpen ? `translateY(-${space}px) rotate(-45deg)` : "translateY(0) rotate(0)",
           }}
-          className="bg-black block transition-all duration-300 h-0.5 w-full rounded-sm origin-center"
+          className={`block transition-all duration-300 h-0.5 w-full rounded-sm origin-center
+            ${isOpen ? 'bg-white' : 'bg-black'
+          }`}
         ></span>
       </button>
       <HamburgerContent isOpen={isOpen} toggle={toggle}/>
