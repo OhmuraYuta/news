@@ -40,7 +40,7 @@ export default function Chat() {
 
   return (
     <div className="h-[50vh] w-screen absolute bottom-0 z-[70] bg-gradient-to-b from-white/0 to-[#6F93BC]">
-      <div className="h-4/5">
+      <div className="h-[70%]">
         <ul className="h-full overflow-scroll w-4/5 mx-auto space-y-3">
           {messages ?
            messages.map((message) => (
