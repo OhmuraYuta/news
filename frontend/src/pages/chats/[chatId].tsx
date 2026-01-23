@@ -13,16 +13,13 @@ import HamburgerMenu from '@/news/components/HamburgerMenu';
 const Message = () => {
 
   return(
-    <div>
+    <div className='relative top-0 w-screen h-screen'>
       <div className='flex justify-between'>
         <HamburgerMenu w={10} h={8} />
         <Login />
       </div>
       <Chat />
       <VrmViewer />
-      <div className='fixed bottom-0 z-50'>
-        <NewChatsBtn />
-      </div>
     </div>
   )
 };
