@@ -13,10 +13,10 @@ export default function Login() {
     handleLogin();
   }
   return (
-    <div>
-      <h1>tookへようこそ！</h1>
+    <div className="flex flex-col items-center text-center">
+      <h1 className='my-10 font-bold'>tookへようこそ！</h1>
       <button onClick={handleClick}
-        className='flex items-center justify-center gap-3 bg-[#3E6EA2] h-[60px] w-4/5 max-w-[400px] mx-auto'
+        className='flex items-center justify-center gap-3 bg-[#3E6EA2] text-white h-[60px] w-4/5 max-w-[400px] rounded-xl shadow-[0px_6px_24px_2px_#76ABE480]'
         disabled={isLoading}
       >
         {isLoading ? (
