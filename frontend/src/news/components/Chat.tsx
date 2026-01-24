@@ -45,6 +45,13 @@ export default function Chat() {
     }
   }, [messages]);
 
+  const lastMessageRef = useRef<HTMLLIElement>(null);
+  useEffect(() => {
+    if (lastMessageRef.current) {
+      lastMessageRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [messages]);
+
   const [thinking, setThinking] = useState(false);
 
   return (
@@ -52,8 +59,9 @@ export default function Chat() {
       <div className="h-[70%]">
         <ul className="h-full overflow-scroll w-4/5 mx-auto space-y-3" ref={scrollRef}>
           {messages ?
-           messages.map((message) => (
+           messages.map((message, index) => (
             <li key={message.id}
+              ref={index === messages.length - 1 ? lastMessageRef : null}
               className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               <div className={`max-w-[80%] p-3 rounded-2xl
