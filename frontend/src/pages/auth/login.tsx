@@ -5,6 +5,7 @@ import { useState } from 'react'
 
 import googleLogo from '@/news/img/google-icon.svg'
 import { handleLogin } from "@/news/utils/auth"
+import logo from "@/news/img/logo.png"
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
@@ -14,6 +15,7 @@ export default function Login() {
   }
   return (
     <div className="flex flex-col items-center text-center">
+      <Image src={logo} alt='logo' className='w-1/3 mt-14' />
       <h1 className='my-10 font-bold'>tookへようこそ！</h1>
       <button onClick={handleClick}
         className='flex items-center justify-center gap-3 bg-[#3E6EA2] text-white h-[60px] w-4/5 max-w-[400px] rounded-xl shadow-[0px_6px_24px_2px_#76ABE480]'
