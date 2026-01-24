@@ -25,6 +25,7 @@ export default function Chat() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
     if (chatId && hasToken()) {
       const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
       const url = `${BASE_URL}/api/chats/${chatId}`
