@@ -15,6 +15,8 @@ export default function HamburgerContent({isOpen, toggle}: {isOpen: boolean, tog
   const [chats, setChats] = useState<Chat[]>([]);
   const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     if(hasToken()) {
       fetch(BASE_URL + '/api/chats', {
@@ -27,6 +29,7 @@ export default function HamburgerContent({isOpen, toggle}: {isOpen: boolean, tog
         setChats(chats);
       })
     }
+    setIsLoading(false);
   }, [isOpen]);
 
   return (
@@ -37,13 +40,19 @@ export default function HamburgerContent({isOpen, toggle}: {isOpen: boolean, tog
             <NewChatsBtn />
           </div>
           <p className="text-[#142537] mb-5">あなたのチャット</p>
-          <ul>
-            {chats.length != 0 ?
-              chats.map((chat) => (
-                <li key={chat.id} style={{borderBottom: 'white solid 1px'}} className="py-3"><Link href={`/chats/${chat.id}`}>{chat.title}</Link></li>
-              ))
-              : 'ログインしてください'}
-          </ul>
+          {!isLoading ? (
+            <ul>
+              {chats.length != 0 ?
+                chats.map((chat) => (
+                  <li key={chat.id} style={{borderBottom: 'white solid 1px'}} className="py-3"><Link href={`/chats/${chat.id}`}>{chat.title}</Link></li>
+                ))
+                : 'ログインしてください'}
+            </ul>
+          ) : (
+            <div className=" text-white mx-auto">
+              読み込み中...
+            </div>
+          )}
         </div>
         <div className={`bg-black/20 fixed bottom-0 w-full h-full transition-all duration-300
           ${isOpen ? 'opacity-100 z-[71]':'opacity-0 -z-5'}`}
