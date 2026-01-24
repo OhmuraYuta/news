@@ -75,9 +75,9 @@ export default function SendMessage({setMessages, setThinking}: {setMessages: Di
       ) : (
         <div className=""><Input text={character} setText={setCharacter} placeholder="性格を入力" /></div>
       )}
-      <div className="flex justify-between items-center">
-        <button onClick={changeMode} className="size-7 text-[#0096D1]"><i className="fa-solid fa-arrows-rotate"></i></button>
+      <div className="flex flex-row-reverse justify-between items-center">
         <button type="submit" className="bg-[#0096D1] p-3 size-7 rounded text-center content-center"><i className="fa-regular fa-paper-plane rotate-45 text-white -translate-x-[55%] -translate-y-[60%]"></i></button>
+        <button onClick={changeMode} className="size-7 text-[#0096D1]"><i className="fa-solid fa-arrows-rotate"></i></button>
       </div>
     </form>
   )
