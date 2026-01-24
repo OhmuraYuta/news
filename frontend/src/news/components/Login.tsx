@@ -115,11 +115,8 @@ export default function Login() {
             </div> : null
           }
         </div> :
-        <div>
-          <h1>ログイン</h1>
-          <button onClick={handleLogin} style={{ padding: '10px 20px' }}>
-            Googleでログイン
-          </button>
+        <div className='bg-[#E8F0F8] rounded-2xl p-2 m-2 relative z-[70]'>
+          <div className="size-6 animate-spin rounded-full border-2 border-[#3E6EA2] border-t-transparent" />
         </div>
       }
     </div>
