@@ -1,119 +1,37 @@
-import { useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
-import { Form } from '@/components/form'
-import MessageReceiver from '@/components/messageReceiver'
-import { Introduction } from '@/components/introduction'
-import { Menu } from '@/components/menu'
-import { Meta } from '@/components/meta'
-import ModalImage from '@/components/modalImage'
-import VrmViewer from '@/components/vrmViewer'
-import Live2DViewer from '@/components/live2DViewer'
-import { Toasts } from '@/components/toasts'
-import { WebSocketManager } from '@/components/websocketManager'
-import CharacterPresetMenu from '@/components/characterPresetMenu'
-import ImageOverlay from '@/components/ImageOverlay'
-import homeStore from '@/features/stores/home'
-import settingsStore from '@/features/stores/settings'
-import '@/lib/i18n'
-import { buildUrl } from '@/utils/buildUrl'
-import { YoutubeManager } from '@/components/youtubeManager'
-import toastStore from '@/features/stores/toast'
+'use client';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
-const Home = () => {
-  const webcamStatus = homeStore((s) => s.webcamStatus)
-  const captureStatus = homeStore((s) => s.captureStatus)
-  const backgroundImageUrl = homeStore((s) => s.backgroundImageUrl)
-  const useVideoAsBackground = settingsStore((s) => s.useVideoAsBackground)
-  const bgUrl =
-    (webcamStatus || captureStatus) && useVideoAsBackground
-      ? ''
-      : backgroundImageUrl === 'green'
-        ? ''
-        : `url(${buildUrl(backgroundImageUrl)})`
-  const messageReceiverEnabled = settingsStore((s) => s.messageReceiverEnabled)
-  const modelType = settingsStore((s) => s.modelType)
-  const { t } = useTranslation()
-  const characterPresets = [
-    {
-      key: 'characterPreset1',
-      value: settingsStore((s) => s.characterPreset1),
-    },
-    {
-      key: 'characterPreset2',
-      value: settingsStore((s) => s.characterPreset2),
-    },
-    {
-      key: 'characterPreset3',
-      value: settingsStore((s) => s.characterPreset3),
-    },
-    {
-      key: 'characterPreset4',
-      value: settingsStore((s) => s.characterPreset4),
-    },
-    {
-      key: 'characterPreset5',
-      value: settingsStore((s) => s.characterPreset5),
-    },
-  ]
+import Live2DViewer from '@/components/live2DViewer';
+import VrmViewer from '@/components/vrmViewer';
+import { speakMessageHandler } from '@/features/chat/handlers';
 
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if ((event.metaKey || event.ctrlKey) && event.shiftKey) {
-        // shiftキーを押しながら数字キーを押すためのマッピング
-        const keyMap: { [key: string]: number } = {
-          Digit1: 1,
-          Digit2: 2,
-          Digit3: 3,
-          Digit4: 4,
-          Digit5: 5,
-        }
+import Wrapper from '@/news/components/Wrapper';
+import Chat from '@/news/components/Chat';
+import Login from '@/news/components/Login';
+import NewChatsBtn from '@/news/components/NewChat';
+import HamburgerMenu from '@/news/components/HamburgerMenu';
 
-        const keyNumber = keyMap[event.code]
+const Message = () => {
 
-        if (keyNumber) {
-          settingsStore.setState({
-            systemPrompt: characterPresets[keyNumber - 1].value,
-          })
-          toastStore.getState().addToast({
-            message: t('Toasts.PresetSwitching', {
-              presetName: t(`Characterpreset${keyNumber}`),
-            }),
-            type: 'info',
-            tag: `character-preset-switching`,
-          })
-        }
-      }
-    }
+  const router = useRouter();
 
-    window.addEventListener('keydown', handleKeyDown)
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [characterPresets, t])
+  const chatId = router.query.chatId;
 
-  const backgroundStyle =
-    (webcamStatus || captureStatus) && useVideoAsBackground
-      ? {}
-      : backgroundImageUrl === 'green'
-        ? { backgroundColor: '#00FF00' }
-        : { backgroundImage: bgUrl }
+  const modelType = 'vrm';
 
-  return (
-    <div className="h-[100svh] bg-cover" style={backgroundStyle}>
-      <Meta />
-      <Introduction />
+  return(
+    <div>
+      chat id: {chatId}
+      <HamburgerMenu w={10} h={8} />
+      <Chat />
       {modelType === 'vrm' ? <VrmViewer /> : <Live2DViewer />}
-      <Form />
-      <Menu />
-      <ModalImage />
-      {messageReceiverEnabled && <MessageReceiver />}
-      <Toasts />
-      <WebSocketManager />
-      <YoutubeManager />
-      <CharacterPresetMenu />
-      <ImageOverlay />
+      <div className='fixed bottom-0 z-50'>
+        <NewChatsBtn />
+        <Login />
+      </div>
     </div>
   )
-}
+};
 
-export default Home
+export default Message;
