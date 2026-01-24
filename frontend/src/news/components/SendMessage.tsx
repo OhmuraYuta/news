@@ -12,7 +12,7 @@ import { hasToken, getHeader } from "../utils/auth";
 import { Messages } from "./Chat";
 import { queryToString } from "../utils/common";
 
-export default function SendMessage({setMessages}: {setMessages: Dispatch<SetStateAction<Messages[]>>}) {
+export default function SendMessage({setMessages, setThinking}: {setMessages: Dispatch<SetStateAction<Messages[]>>, setThinking: Dispatch<SetStateAction<boolean>>}) {
 
   const [text, setText] = useState<string>('');
   const [character, setCharacter] = useState<string>('');
@@ -25,6 +25,8 @@ export default function SendMessage({setMessages}: {setMessages: Dispatch<SetSta
       setText('');
       return;
     }
+
+    setThinking(true);
     
     const newMessage = {
       id: uuidv4(),
@@ -54,17 +56,29 @@ export default function SendMessage({setMessages}: {setMessages: Dispatch<SetSta
         speakMessageHandler(data.content);
         setMessages((prev) => [...prev, data]);
       })
+      .finally(() => setThinking(false))
     }
 
     setText('');
   };
 
+  const [modeText, setModeText] = useState(true);
+
+  const changeMode = () => {
+    setModeText(!modeText);
+  }
+
   return (
-    <form onSubmit={handleSubmit} className="relative z-[51] m-3">
-      <p>性格</p>
-      <div className="border border-black w-1/3"><Input text={character} setText={setCharacter} /></div>
-      <div className="border border-black"><Input text={text} setText={setText} /></div>
-      <button type="submit">送信</button>
+    <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-2 z-[51] w-[80%] fixed bottom-5 right-1/2 translate-x-1/2">
+      {modeText ? (
+        <div className=""><Input text={text} setText={setText} placeholder="メッセージを入力" /></div>
+      ) : (
+        <div className=""><Input text={character} setText={setCharacter} placeholder="性格を入力" /></div>
+      )}
+      <div className="flex justify-between items-center">
+        <button onClick={changeMode} className="size-7 text-[#0096D1]"><i className="fa-solid fa-arrows-rotate"></i></button>
+        <button type="submit" className="bg-[#0096D1] p-3 size-7 rounded text-center content-center"><i className="fa-regular fa-paper-plane rotate-45 text-white -translate-x-[55%] -translate-y-[60%]"></i></button>
+      </div>
     </form>
   )
 }

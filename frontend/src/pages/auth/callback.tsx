@@ -2,7 +2,8 @@
 
 import { useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { getHeader, getOrCreateChat } from '@/news/utils/auth';
+import { getOrCreateChat } from '@/news/utils/auth';
+import Loading from '@/news/components/Loading';
 
 export default function AuthCallbackPage() {
   const searchParams = useSearchParams();
@@ -24,7 +25,6 @@ export default function AuthCallbackPage() {
         .then((res) => res.json())
         .then((data) => {
           if (data.token) {
-            console.log('Token:', data.token);
             // ここでトークンをCookieやlocalStorageに保存する
             localStorage.setItem('token', data.token);
 
@@ -32,7 +32,6 @@ export default function AuthCallbackPage() {
             getOrCreateChat()
               .then((path) => {
                 // ログイン後のページへ遷移
-                console.log(path)
                 router.push(path);
               })
 
@@ -44,5 +43,12 @@ export default function AuthCallbackPage() {
     }
   }, [searchParams, router]);
 
-  return <div>ログイン処理中...</div>;
+  return (
+    <div className="w-screen h-screen content-center text-center">
+      <div className="w-fit mx-auto mb-5">
+        <Loading />
+      </div>
+      <p>ログイン処理中</p>
+    </div>
+  )
 }

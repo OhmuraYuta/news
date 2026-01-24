@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { XMarkIcon } from '@heroicons/react/24/outline';
 
 import { handleLogin, hasToken, getHeader } from '../utils/auth';
 
@@ -67,32 +68,55 @@ export default function Login() {
 
   const [isOpen, setIsOpen] = useState(false);
 
+  const [isLoading, setIsLoading] = useState(false);
+  const handleClick = () => {
+    setIsLoading(true);
+    handleLogout();
+  }
+
   const toggle = () => setIsOpen(!isOpen);
 
   return (
-    <div style={{ padding: '50px' }}>
+    <div className=''>
       {user ?
-        <div>
-          <button onClick={toggle}>
-            <img src={user.avatar_url} alt={user?.name} />
-            {isOpen ?
-              <div>
+        <div className=''>
+          <button onClick={toggle} className='flex bg-[#E8F0F8] rounded-2xl p-2 m-2 relative z-[70]'>
+            <img src={user.avatar_url} alt={user?.name} className='size-6 rounded-full' />
+            <p className='text-[#3E6EA2]'>{user?.name}</p>
+          </button>
+          {isOpen ?
+            <div className='z-[75] w-screen h-screen bg-white absolute top-0 right-0 p-5'>
+              <div className='flex justify-end'>
+                <button
+                  onClick={toggle}
+                  className='p-2 hover:bg-gray-100 rounded-full transition-colors'
+                >
+                  <XMarkIcon className='w-8 h-8 text-gray-600' />
+                </button>
+              </div>
+              <div className="flex flex-col items-center text-center gap-5">
                 <p>{user?.email}</p>
+                <img src={user.avatar_url} alt="icon" className='size-[25%] rounded-full' />
                 <p>{user?.name}</p>
                 <button
-                  onClick={handleLogout}
+                  onClick={handleClick}
+                  className='flex items-center justify-center gap-3 bg-[#3E6EA2] text-white h-[60px] w-4/5 max-w-[400px] rounded-xl shadow-[0px_6px_24px_2px_#76ABE480]'
+                  disabled={isLoading}
                 >
-                  ログアウト
+                  {isLoading ? (
+                    <div className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                  ) : (
+                    <>
+                      ログアウト
+                    </>
+                  )}
                 </button>
-              </div> : null
-            }
-          </button>
+              </div>
+            </div> : null
+          }
         </div> :
-        <div>
-          <h1>ログイン</h1>
-          <button onClick={handleLogin} style={{ padding: '10px 20px' }}>
-              Googleでログイン
-          </button>
+        <div className='bg-[#E8F0F8] rounded-2xl p-2 m-2 relative z-[70]'>
+          <div className="size-6 animate-spin rounded-full border-2 border-[#3E6EA2] border-t-transparent" />
         </div>
       }
     </div>

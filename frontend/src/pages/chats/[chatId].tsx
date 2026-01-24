@@ -2,33 +2,24 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
-import Live2DViewer from '@/components/live2DViewer';
 import VrmViewer from '@/components/vrmViewer';
-import { speakMessageHandler } from '@/features/chat/handlers';
 
 import Wrapper from '@/news/components/Wrapper';
 import Chat from '@/news/components/Chat';
 import Login from '@/news/components/Login';
-import NewChatsBtn from '@/news/components/NewChat';
 import HamburgerMenu from '@/news/components/HamburgerMenu';
 
 const Message = () => {
 
-  const router = useRouter();
-
-  const chatId = router.query.chatId;
-
-  const modelType = 'vrm';
-
   return(
-    <div>
-      chat id: {chatId}
-      <HamburgerMenu w={10} h={8} />
-      <Chat />
-      {modelType === 'vrm' ? <VrmViewer /> : <Live2DViewer />}
-      <div className='fixed bottom-0 z-50'>
-        <NewChatsBtn />
+    <div className='relative top-0 w-screen h-screen'>
+      <div className='flex justify-between'>
+        <HamburgerMenu w={10} h={8} />
         <Login />
+      </div>
+      <Chat />
+      <div className='absolute top-0 w-full h-full after:bg-[#cfcfcf] after:content-[""] after:absolute after:bottom-0 after:h-[21vh] after:w-screen after:z-10'>
+        <VrmViewer />
       </div>
     </div>
   )
