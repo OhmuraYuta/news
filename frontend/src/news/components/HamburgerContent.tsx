@@ -31,7 +31,7 @@ export default function HamburgerContent({isOpen, toggle}: {isOpen: boolean, tog
 
   return (
       <div className="h-full w-screen flex">
-        <div className="p-3 fixed top-0 h-full w-[60vw] bg-[#3E6EA2] z-[72] transition-all duration-300 pt-20 text-white text-xs font-extralight"
+        <div className="p-6 fixed top-0 h-full w-[70vw] bg-[#3E6EA2] z-[72] transition-all duration-300 pt-20 text-white text-xs font-extralight"
             style={{transform: isOpen ? 'translateX(0%)':'translateX(-100%)' }}>
           <div className="mb-14">
             <NewChatsBtn />

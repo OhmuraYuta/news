@@ -21,8 +21,8 @@ export default function HamburgerMenu({ w, h }: { w: number; h: number }) {
     <nav style={{ width: `${wpx}px`, height: `${hpx}px` }}>
       <button
         onClick={toggle}
-        style={{ width: `${wpx}px`, height: `${hpx}px`, transform: isOpen ? `translateX(calc(60vw - ${wpx}px))` : 'translateX(0)' }}
-        className="flex flex-col p-2 justify-between items-center group relative z-[73] transition-transform duration-300"
+        style={{ width: `${wpx}px`, height: `${hpx}px`, transform: isOpen ? `translateX(calc(70vw - ${wpx}px - 16px))` : 'translateX(0)' }}
+        className="flex flex-col ml-2 mt-3 p-2 justify-between items-center group relative z-[73] transition-transform duration-300"
       >
         <span
           style={{
