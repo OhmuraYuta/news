@@ -12,7 +12,7 @@ import { hasToken, getHeader } from "../utils/auth";
 import { Messages } from "./Chat";
 import { queryToString } from "../utils/common";
 
-export default function SendMessage({setMessages}: {setMessages: Dispatch<SetStateAction<Messages[]>>}) {
+export default function SendMessage({setMessages, setThinking}: {setMessages: Dispatch<SetStateAction<Messages[]>>, setThinking: Dispatch<SetStateAction<boolean>>}) {
 
   const [text, setText] = useState<string>('');
   const [character, setCharacter] = useState<string>('');
@@ -25,6 +25,8 @@ export default function SendMessage({setMessages}: {setMessages: Dispatch<SetSta
       setText('');
       return;
     }
+
+    setThinking(true);
     
     const newMessage = {
       id: uuidv4(),
@@ -54,6 +56,7 @@ export default function SendMessage({setMessages}: {setMessages: Dispatch<SetSta
         speakMessageHandler(data.content);
         setMessages((prev) => [...prev, data]);
       })
+      .finally(() => setThinking(false))
     }
 
     setText('');

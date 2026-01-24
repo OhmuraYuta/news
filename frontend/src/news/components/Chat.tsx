@@ -45,6 +45,8 @@ export default function Chat() {
     }
   }, [messages]);
 
+  const [thinking, setThinking] = useState(false);
+
   return (
     <div className="h-[50vh] w-screen absolute bottom-0 z-[70] bg-gradient-to-b from-white/0 to-[#6F93BC]">
       <div className="h-[70%]">
@@ -66,9 +68,17 @@ export default function Chat() {
            )) :
            'ログインしてください'
           }
+          {thinking && (
+            <li className="flex">
+              <div className="flex max-w-[80%] p-3 rounded-2xl bg-white text-gray-800">
+                <div className="h-5 w-5 animate-spin rounded-full border-2 border-gray-800 border-t-transparent mr-2" />
+                考え中…
+              </div>
+            </li>
+          )}
         </ul>
       </div>
-      <SendMessage setMessages={setMessages}/>
+      <SendMessage setMessages={setMessages} setThinking={setThinking}/>
     </div>
   )
 }
