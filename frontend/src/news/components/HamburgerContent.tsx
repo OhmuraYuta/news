@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { hasToken, getHeader } from "../utils/auth";
 import NewChatsBtn from "./NewChat";
 
@@ -36,7 +37,8 @@ export default function HamburgerContent({isOpen, toggle}: {isOpen: boolean, tog
       <div className="h-full w-screen flex">
         <div className="p-6 fixed top-0 h-full w-[70vw] bg-[#3E6EA2] z-[72] transition-all duration-300 pt-20 text-white text-xs font-extralight"
             style={{transform: isOpen ? 'translateX(0%)':'translateX(-100%)' }}>
-          <div className="mb-14">
+          <Image src="/favicon.ico" width={20} height={20} alt="ロゴ" className="bg-white rounded size-8 p-1 absolute top-4" />
+          <div className="my-12">
             <NewChatsBtn />
           </div>
           <p className="text-[#142537] mb-5">あなたのチャット</p>
